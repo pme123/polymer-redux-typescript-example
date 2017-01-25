@@ -3,3 +3,6 @@ bower_components
 .DS_Store
 typings
 .idea
+/npm-debug.log
+/*.js
+/*.js.map
