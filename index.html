@@ -1,0 +1,36 @@
+<html>
+<head>
+  <link rel="import" href="./bower_components/polymer/polymer.html">
+  <script src="./bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="./node_modules/redux/dist/redux.js"></script>
+  <script src="./bower_components/polymer-redux/polymer-redux.js"></script>
+  <script src="./bower_components/polymer-ts/polymer-ts.min.js"></script>
+  <script src="./redux-behavior.js"></script>
+  <link rel="import" href="./customer-elem.html">
+
+</head>
+<body>
+<!-- app -->
+
+<dom-module id="index-page">
+  <template>
+    <customer-elem></customer-elem>
+  </template>
+</dom-module>
+<script>
+  window.addEventListener("WebComponentsReady", function () {
+    Polymer({
+      is: 'index-page',
+      ready: function () {
+        console.log("index is ready")
+      }
+    });
+
+    (function (document) {
+      'use strict';
+    })(document);
+  });
+</script>
+<index-page></index-page>
+</body>
+</html>
