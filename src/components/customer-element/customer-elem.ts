@@ -1,17 +1,19 @@
-/// <reference path="bower_components/polymer-ts/polymer-ts.d.ts"/>
-
+import {reduxStore} from '../../scripts/redux-store'
+import ReduxBehavior = reduxStore.ReduxBehavior
+import Customer= reduxStore.Customer
+import Action= reduxStore.Action
 
 @component('customer-elem')
-@behavior(redux.ReduxBehavior)
+@behavior(ReduxBehavior)
 class CustomerElem extends polymer.Base {
 
   // statePath is an extension of Polymer.property - throws transpile exception
-  @property({type: Object, statePath: 'customer'})
-  customer: redux.Customer;
+  @property({type: Object, statePath: 'customer'} as any)
+  customer: Customer;
 
   //// stand-in properties for behavior mixins
   // ReduxBehavior
-  dispatch: (action) => void;
+  dispatch: (action: Action) => void;
 
   @listen('increaseButton.click')
   _handleIncrease() {
@@ -30,7 +32,7 @@ class CustomerElem extends polymer.Base {
   }
 
   @listen('nameTextField.keypress')
-  _handleKeypress(e) {
+  _handleKeypress(e: any) {
     if (e.which === 13 && !!e.currentTarget.value.trim()) {
       this._handleUpdate();
     }

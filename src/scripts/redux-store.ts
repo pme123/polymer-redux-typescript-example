@@ -1,4 +1,8 @@
-module redux {
+import {Store, createStore} from "redux";
+// with
+//import "../../bower_components/polymer-redux/polymer-redux.js";
+
+export module reduxStore {
 
   export interface Customer {
     customer: {
@@ -13,7 +17,7 @@ module redux {
   }
 
   let initialState = {customer: {age: 30, name: 'Polymer Redux'}}
-  let store: Redux.Store<Customer> = Redux.createStore(appReducer);
+  let store: Store<Customer> = createStore(appReducer);
   // PolymerRedux has no typings - transpile error
   export const ReduxBehavior = PolymerRedux(store);
 

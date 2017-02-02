@@ -1,0 +1,11 @@
+{
+  "build": {
+    "rootDir": "build",
+    "distDir": "build/dist",
+    "debugDir": "build/debug"
+  },
+  "serviceWorkerPath": "service-worker.js",
+  "swPrecacheConfig": {
+    "navigateFallback": "/index.html"
+  }
+}

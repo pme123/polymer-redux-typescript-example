@@ -1,0 +1,21 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/components/my-app/my-app.html",
+  "fragments": [
+    "src/components/my-view1/my-view1.html",
+    "src/components/my-view2/my-view2.html",
+    "src/components/my-view3/my-view3.html",
+    "src/components/my-view404/my-view404.html"
+  ],
+  "sources": [
+    "src/components/**/*.html",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "systemjs.config.js",
+    "bower_components/polymer-ts/polymer-ts.{min.html,min.js,,min.js.map,ts}",
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js",
+    "node_modules/systemjs/dist/system.js"
+  ]
+}
