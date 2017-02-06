@@ -1,47 +1,44 @@
 import "mocha";
 import {expect} from "chai";
-import {Customer, Action, ActionType} from "../../src/scripts/entities"
+import {ReduxState, ReduxAction, ActionType} from "../../src/scripts/entities";
 import {ReduxStore} from "../../src/scripts/redux-store";
 
 describe('ReduxStore', () => {
   let store: ReduxStore;
-  const state: Customer = {
+  const state: ReduxState = {
     customer: {
       age: 16,
-      name: 'Herby'
-    }
+      name: 'Herby',
+    },
   };
 
   beforeEach(() => {
     store = new ReduxStore();
   });
 
-  afterEach(() => {
-  });
-
   it('should update the name if a UPDATE action was sent', () => {
-    const action: Action = {
-      type: ActionType.UPDATE
-      , value: 'Pascal'
+    const action: ReduxAction = {
+      type: ActionType.UPDATE,
+      value: 'Pascal',
     };
-    expect(store.appReducer(state, action).customer.name
-    ).to.be.equal('Pascal');
+    expect(store.appReducer(state, action).customer.name)
+      .to.be.equal('Pascal');
   });
 
   it('should increment the age if an INCREASE action was sent', () => {
-    const action: Action = {
-      type: ActionType.INCREASE
+    const action: ReduxAction = {
+      type: ActionType.INCREASE,
     };
-    expect(store.appReducer(state, action).customer.age
-    ).to.be.equal(17);
+    expect(store.appReducer(state, action).customer.age)
+      .to.be.equal(17);
   });
 
   it('should increment the age if a DECREASE action was sent', () => {
-    const action: Action = {
-      type: ActionType.DECREASE
+    const action: ReduxAction = {
+      type: ActionType.DECREASE,
     };
-    expect(store.appReducer(state, action).customer.age
-    ).to.be.equal(15);
+    expect(store.appReducer(state, action).customer.age)
+      .to.be.equal(15);
   });
 
 });

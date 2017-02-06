@@ -1,10 +1,8 @@
-import {ReduxStore} from '../../scripts/redux-store';
-import ReduxBehavior = ReduxStore.ReduxBehavior;
-import Customer = ReduxStore.Customer;
-import Action = ReduxStore.Action;
+import {Customer, ReduxAction, ActionType} from "../../scripts/entities";
+import {ReduxStore} from "../../scripts/redux-store";
 
 @component('my-customer-elem')
-@behavior(ReduxBehavior)
+@behavior(ReduxStore.ReduxBehavior)
 class CustomerElem extends polymer.Base {
 
   // statePath is an extension of Polymer.property - throws transpile exception
@@ -13,21 +11,25 @@ class CustomerElem extends polymer.Base {
 
   //// stand-in properties for behavior mixins
   // ReduxBehavior
-  dispatch: (action: Action) => void;
+  dispatch: (action: ReduxAction) => void;
 
   @listen('increaseButton.click')
   _handleIncrease() {
-    this.dispatch({type: 'increase'});
+    this.dispatch({
+      type: ActionType.INCREASE,
+    });
   }
 
   @listen('decreaseButton.click')
   _handleDecrease() {
-    this.dispatch({type: 'decrease'});
+    this.dispatch({
+      type: ActionType.DECREASE,
+    });
   }
 
   @listen('updateButton.click')
   _handleUpdate() {
-    this.dispatch({type: 'update', value: this.$.nameTextField.value});
+    this.dispatch({type: ActionType.UPDATE, value: this.$.nameTextField.value});
     this.$.nameTextField.value = '';
   }
 
