@@ -1,193 +1,95 @@
-# Typescript Polymer Redux Example
+# Polymer TypeScript Starter Kit
 
-This is based on [jdomzhang/polymer-redux-example](https://github.com/jdomzhang/polymer-redux-example)
+[![Travis Build Status](https://travis-ci.org/tony19/polymer-typescript-starter-kit.svg?branch=master)](https://travis-ci.org/tony19/polymer-typescript-starter-kit) [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/cmo1qqw1lix5jaic/branch/master?svg=true)](https://ci.appveyor.com/project/tony19/polymer-typescript-starter-kit/branch/master)
 
-### Open issues
-- statePath of the State definition is an extension of Polymer.property - throws transpile exception
-- PolymerRedux has no Typings - throws transpile exception
+> Polymer Starter Kit w/TypeScript support
 
-## Installation
+*Features*
 
-```bash
-npm install
-bower install
-typings install
-```
+ * Inline TypeScript transpilation (via `<script type="text/x-typescript>`)
+ * [PolymerTS](https://github.com/nippur72/PolymerTS)
+ * Inline Sass transpilation (via `<style>`)
+ * Live reload on development server
 
-## Usage
-
-### Boilerplate
-
-Before importing Polymer Redux you must first include Redux to the applications
-document.
+With inline TypeScript transpilation and PolymerTS, you could define elements like [this](https://github.com/tony19/polymer-typescript-starter-kit/blob/7093acd/src/components/my-view3/my-view3.html#L31-L38):
 
 ```html
-<html>
-    <head>
-        <link rel="import" href="./bower_components/polymer/polymer.html">
-        <script src="./bower_components/webcomponentsjs/webcomponents.js"></script>
-        <script src="./node_modules/redux/dist/redux.js"></script>
-        <script src="./bower_components/polymer-redux/polymer-redux.js"></script>
-        <script src="./bower_components/polymer-ts/polymer-ts.min.js"></script>
-        <script src="./redux-behavior.js"></script>
-        <link rel="import" href="./customer-elem.html">
-    </head>
-    <body>
-        <!-- app -->
-    </body>
-</html>
-```
-
-### Setup
-
-To bind Polymer components with Redux you must first create a ReduxBehavior
-which wraps your application's store and decorates your elements. Simply set up
-your Redux store as usual and then create the behavior with the `PolymerRedux`
-constructor passing the store.
-
-```javascript
-module redux {
-
-  let initialState = {customer: {age: 30, name: 'Polymer Redux'}}
-  let store = Redux.createStore(appReducer)
-  export const ReduxBehavior = PolymerRedux(store)
-
-  function appReducer(state, action) {
-    state = state || initialState
-    let customer =
-      {
-        name: nameReducer(state.customer.name, action),
-        age: ageReducer(state.customer.age, action)
-      };
-    return {customer: customer}
-  }
-
-  function nameReducer(state, action) {
-    switch (action.type) {
-      case 'update':
-        return action.value || state;
-      default:
-        return state;
-    }
-  }
-
-  function ageReducer(state, action) {
-    switch(action.type) {
-      case 'increase':
-        return state + 1;
-      case 'decrease':
-        return state - 1;
-      default:
-        return state
-    }
-  }
-}
-
-```
-
-
-### Binding Properties
-
-Polymer Redux binds state to the components properties. This binding happens on
-the `created` callback. To bind a property to a value in the state set the 
-`statePath` key when defining properties in Polymer.
-
-```javascript
-@component('customer-elem')
-@behavior(redux.ReduxBehavior)
-class CustomerElem extends polymer.Base {
-
-  // statePath is an extension of Polymer.property - throws transpile exception
-  @property({type: Object, statePath: 'customer'})
-  customer;
- ...
-}
-```
-
-
-#### Dot Notation
-
-Binding properties this way makes use of [`Polymer.Base.get()`](http://polymer.github.io/polymer/) method, so you can use dot notation paths like so: `'customer.name'`.
-
-#### Two-way Bindings
-
-Principle #2 of Redux's [Three Principles](http://redux.js.org/docs/introduction/ThreePrinciples.html),
-says that state is read-only. Polymer however allows components to have two-way
-binding via the `notify` flag. If the properties flagged with `notify` and have
-`statePath` set, you will recieve a warning in your application runtime.
-
-### Dispatching Actions
-
-For an easier and semanatic way to dispatch actions against the store, is to create a list of actions the component can trigger. Adding a list of functions to the `actions` property, exposes them to the `dispatch()` method of the element. Or you can just simply `dispatch` an action object with `type` name.
-
-Add 2 buttons to increase/decrease the `customer.age`, and add one input field and button to update `customer.name`.
-
-```html
-<dom-module id="customer-elem">
+<dom-module id="my-view3">
   <template>
-    <h1>Hello, <span>[[customer.name]]</span></h1>
-    <h2>Age: <span>[[customer.age]]</span></h2>
-    <div>
-      <button id="increaseButton">+</button>
-      <button id="decreaseButton">-</button>
-    </div>
-    <br/>
-    <input id="nameTextField" placeHolder="new name"/>
-    <button id="updateButton">update</button>
+    <h1>[[title]]</h1>
   </template>
+
+  <script type="text/x-typescript">
+    @component('my-view3')
+    class MyView3 extends polymer.Base {
+      @property()
+      title = 'View Three';
+    }
+    MyView3.register();
+  </script>
 </dom-module>
 ```
 
-Add event handlers for buttons and input field.
-
-```javascript
-//...
-
-  @listen('increaseButton.click')
-  _handleIncrease() {
-    this.dispatch({type: 'increase'})
-  }
-
-  @listen('decreaseButton.click')
-  _handleDecrease() {
-    this.dispatch({type: 'decrease'})
-  }
-
-  @listen('updateButton.click')
-  _handleUpdate() {
-    this.dispatch({type: 'update', value: this.$.nameTextField.value})
-    this.$.nameTextField.value = ''
-  }
-
-  @listen('nameTextField.keypress')
-  _handleKeypress(e) {
-    if (e.which === 13 && !!e.currentTarget.value.trim()) {
-      this._handleUpdate();
-    }
-  }
-//...
-```
-
-`dispatch()` also takes a function that returns a action object.
-
-```javascript
-//...
-  // stand-in properties for behavior mixins
-  // ReduxBehavior
-  dispatch: (action) => void;
-
-  @listen('updateButton.click')
-  _handleUpdate() {
-    this.dispatch({type: 'update', value: this.$.nameTextField.value})
-    this.$.nameTextField.value = ''
-  }
-//...
-```
-
-### Make it Work
-Just simply declare the custom `Polymer` element as below.
+You could also import TypeScript files like [this](https://github.com/tony19/polymer-typescript-starter-kit/blob/7093acd/src/components/my-view2/my-view2.html#L31):
 
 ```html
-<index-page></index-page>
+<dom-module id="my-view2">
+  <template>
+    <h1>[[title]]</h1>
+  </template>
+
+  <script>System.import('components/my-view2/my-view2');</script>
+</dom-module>
 ```
 
+
+### Quickstart
+
+Install these packages:
+
+ * [Node](https://nodejs.org/) 4 or newer
+ * [Bower](https://bower.io/)
+ * [Yarn](https://yarnpkg.com/)
+ * [Polymer CLI](https://github.com/Polymer/polymer-cli)
+
+Then run these commands to build the project and open a browser to it:
+
+```shell
+yarn
+bower install
+yarn build
+yarn start
+```
+
+
+### Gulp tasks
+
+```shell
+build         Builds HTML, styles, and scripts
+clean         Deletes output directory and any intermediate files
+csslint       Lints the CSS/SCSS files
+html          Builds HTML files (and dependencies)
+ --bundle      …bundle output
+ --deps        …build dependencies
+ --sw          …generate service worker
+htmllint      Lints HTML files
+images        Optimizes images
+license       Verifies license headers
+ --exclude     …glob patterns to exclude
+ --include     …glob patterns to include
+ -w            …write license headers if necessary
+scripts       Builds all TypeScript files
+serve         Starts development server
+ --https       …enable https
+ --port        …starting port number (default: 8080)
+styles        Builds the CSS/SCSS files
+tslint        Lints TypeScript files
+```
+
+### Yarn scripts
+```
+build         Builds (runs `gulp`)
+start         Starts development server (runs `gulp serve`)
+test          Builds and then runs web-component unit tests
+tezt          Run non-web-component tests with code coverage
+```

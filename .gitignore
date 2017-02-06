@@ -7,6 +7,10 @@ build
 dist
 node_modules
 npm-debug.log
-gulp/**/*.js
+#gulp/**/*.js
 src/**/*.js
 test/**/*.js
+#gulp/**/*.d.ts
+src/**/*.d.ts
+test/**/*.d.ts
+yarn.lock

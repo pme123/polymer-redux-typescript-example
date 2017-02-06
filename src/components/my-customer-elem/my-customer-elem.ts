@@ -1,9 +1,9 @@
-import {reduxStore} from '../../scripts/redux-store'
-import ReduxBehavior = reduxStore.ReduxBehavior
-import Customer= reduxStore.Customer
-import Action= reduxStore.Action
+import {ReduxStore} from '../../scripts/redux-store';
+import ReduxBehavior = ReduxStore.ReduxBehavior;
+import Customer = ReduxStore.Customer;
+import Action = ReduxStore.Action;
 
-@component('customer-elem')
+@component('my-customer-elem')
 @behavior(ReduxBehavior)
 class CustomerElem extends polymer.Base {
 
@@ -17,18 +17,18 @@ class CustomerElem extends polymer.Base {
 
   @listen('increaseButton.click')
   _handleIncrease() {
-    this.dispatch({type: 'increase'})
+    this.dispatch({type: 'increase'});
   }
 
   @listen('decreaseButton.click')
   _handleDecrease() {
-    this.dispatch({type: 'decrease'})
+    this.dispatch({type: 'decrease'});
   }
 
   @listen('updateButton.click')
   _handleUpdate() {
-    this.dispatch({type: 'update', value: this.$.nameTextField.value})
-    this.$.nameTextField.value = ''
+    this.dispatch({type: 'update', value: this.$.nameTextField.value});
+    this.$.nameTextField.value = '';
   }
 
   @listen('nameTextField.keypress')

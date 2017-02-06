@@ -9,7 +9,8 @@
     "removeComments": true,
     "strictNullChecks": true,
     "target": "es5",
- //   "allowJs": true,
+    "allowJs": true,
+    "outDir": "build",
     "lib": [
       "es6",
       "dom"

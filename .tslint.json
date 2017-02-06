@@ -6,7 +6,8 @@
     "no-reference": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "quotemark": false,
+    "quotemark": true,
+    "interface-name": false,
     "variable-name": {
       "check-format": "allow-leading-underscore"
     }

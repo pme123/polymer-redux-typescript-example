@@ -1,53 +1,43 @@
 import {Store, createStore} from "redux";
-// with
-//import "../../bower_components/polymer-redux/polymer-redux.js";
+import {Customer, Action, ActionType} from "./entities"
+import * as PolymerRedux from "../../bower_components/polymer-redux/polymer-redux.js"
 
-export module reduxStore {
+export class ReduxStore {
 
-  export interface Customer {
-    customer: {
-      age: number
-      , name: string
-    }
+  public ReduxBehavior: any;
+  initialState: Customer = {customer: {age: 30, name: 'Polymer Redux'}};
+
+  constructor() {
+    const store: Store<Customer> = createStore(this.appReducer);
+    this.ReduxBehavior = PolymerRedux(store);
   }
 
-  export interface Action {
-    type: string
-    , value?: string
-  }
+  appReducer = (state: Customer, action: Action) => {
+    state = state || this.initialState;
+    const customer = {
+      name: this.nameReducer(state.customer.name, action),
+      age: this.ageReducer(state.customer.age, action),
+    };
+    return {customer: customer};
+  };
 
-  let initialState = {customer: {age: 30, name: 'Polymer Redux'}}
-  let store: Store<Customer> = createStore(appReducer);
-  // PolymerRedux has no typings - transpile error
-  export const ReduxBehavior = PolymerRedux(store);
-
-  function appReducer(state: Customer, action: Action) {
-    state = state || initialState;
-    let customer =
-      {
-        name: nameReducer(state.customer.name, action),
-        age: ageReducer(state.customer.age, action)
-      };
-    return {customer: customer}
-  }
-
-  function nameReducer(state: string, action: Action) {
+  nameReducer = (state: string, action: Action) => {
     switch (action.type) {
-      case 'update':
+      case ActionType.UPDATE:
         return action.value || state;
       default:
         return state;
     }
-  }
+  };
 
-  function ageReducer(state: number, action: Action) {
+  ageReducer = (state: number, action: Action)  => {
     switch (action.type) {
-      case 'increase':
+      case ActionType.INCREASE:
         return state + 1;
-      case 'decrease':
+      case ActionType.DECREASE:
         return state - 1;
       default:
-        return state
+        return state;
     }
   }
 }
