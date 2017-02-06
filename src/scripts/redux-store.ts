@@ -1,4 +1,4 @@
-import * as redux from "redux";
+import {Store, createStore} from "redux";
 import {ReduxState, Customer, ReduxAction, ActionType} from "./entities";
 import * as PolymerRedux from "../../bower_components/polymer-redux/polymer-redux.js";
 
@@ -8,7 +8,7 @@ export class ReduxStore {
   initialState: ReduxState = {customer: {age: 30, name: 'Polymer Redux'}};
 
   constructor() {
-    const store: redux.Store<ReduxState> = redux.createStore(this.appReducer);
+    const store: Store<ReduxState> = createStore(this.appReducer);
     ReduxStore.ReduxBehavior = PolymerRedux(store);
   }
 
