@@ -1,8 +1,9 @@
-import redux = require( "../../node_modules/redux/index");
+import * as redux from "redux";
 import {ReduxState, Customer, ReduxAction, ActionType} from "./entities";
+// no typings for polymer-redux
 import * as PolymerRedux from "../../bower_components/polymer-redux/polymer-redux.js";
 
-export class ReduxStore {
+export default class ReduxStore {
 
   static ReduxBehavior: any;
 

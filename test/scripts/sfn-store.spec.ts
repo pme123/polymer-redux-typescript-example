@@ -1,7 +1,7 @@
 import "mocha";
 import {expect} from "chai";
 import {ReduxState, ReduxAction, ActionType} from "../../src/scripts/entities";
-import {ReduxStore} from "../../src/scripts/redux-store";
+import ReduxStore from "../../src/scripts/redux-store";
 
 describe('ReduxStore', () => {
   let store: ReduxStore;

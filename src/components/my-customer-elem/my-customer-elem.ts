@@ -1,5 +1,5 @@
 import {Customer, ReduxAction, ActionType} from "../../scripts/entities";
-import {ReduxStore} from "../../scripts/redux-store";
+import ReduxStore from "../../scripts/redux-store";
 
 @component('my-customer-elem')
 @behavior(ReduxStore.ReduxBehavior)
