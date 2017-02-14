@@ -1,14 +1,15 @@
-import {Store, createStore} from "redux";
+import redux = require( "../../node_modules/redux/index");
 import {ReduxState, Customer, ReduxAction, ActionType} from "./entities";
 import * as PolymerRedux from "../../bower_components/polymer-redux/polymer-redux.js";
 
 export class ReduxStore {
 
   static ReduxBehavior: any;
+
   initialState: ReduxState = {customer: {age: 30, name: 'Polymer Redux'}};
 
   constructor() {
-    const store: Store<ReduxState> = createStore(this.appReducer);
+    const store = redux.createStore(this.appReducer);
     ReduxStore.ReduxBehavior = PolymerRedux(store);
   }
 
